@@ -22,6 +22,12 @@ var constraints1 = ava.reduce(function(prev, curr) {
     return prev.concat(curr);
 }, []);
 
+var constraints2 = [1,1,0,0];
+
+var generation = 0,
+    colonySize = 10,
+    survive = 2,
+    deceased = 2;
 
 var gen0 = generateSolutions(10);
 
@@ -30,6 +36,8 @@ console.log(gen0);
 var score0 = gen0.map(function(g){return calculateScore(g,ava[0].length,ava.length)});
 
 console.log(score0);
+
+
 
 /*======== Functions ============*/
 
@@ -40,7 +48,7 @@ function generateSolutions(count)
     {
         var solution = generateSolution(constraints1.length, ava[0].length);
         while(!verifyconstraints1(solution, constraints1)
-            || !verifyconstraints2(solution)
+            || !verifyconstraints2(solution, constraints2)
             || !verifyconstraints3(solution, ava[0].length))
         {
             solution = generateSolution(constraints1.length, ava[0].length);
@@ -81,14 +89,12 @@ function verifyconstraints1(solution, constraints)
     }, 0) < 1;
 }
 
-function verifyconstraints2(solution, constarints)
+function verifyconstraints2(solution, constraints)
 {
-    
-    var constraints2 = [1,1,0];
     var currIndex = 0;
-    while(currIndex<solution.length/constraints2.size)
+    while(currIndex<solution.length/constraints.size)
     {
-        var test = getUnit(solution, currIndex, constraints2.size);
+        var test = getUnit(solution, currIndex, constraints.size);
         currIndex ++;
         result = test.map(function(obj, i) { return obj & constraints2[i];});
         if (result.toString() === constraints2.toString()) return false;
@@ -130,10 +136,25 @@ function calculateScore(solution, unitSize, unitCount)
     {
         var unit = getUnit(solution, currIndex, unitSize);
         var count = unit.reduce(function(a,b) {return a+b;},0);
-        score += Math.abs(count - solution.length/unitCount/unitCount);
+        score += Math.pow(Math.abs(count - solution.length/unitCount/unitCount), 2);
         currIndex++;
     }
     return score;
+}
+
+function crossover(solution1, solution2)
+{
+
+}
+
+function pickBest(count)
+{
+
+}
+
+function pickWorse(count)
+{
+
 }
 
 exports.generateSolution = generateSolution;
