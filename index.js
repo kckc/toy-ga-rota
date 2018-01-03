@@ -4,10 +4,13 @@
 // - use byte array
 
 var ava = [
-    [0,0,1,0],
-    [1,1,0,1],
-    [0,0,0,0],
-    [1,0,0,0]
+    [0,0,1,0,0,1],
+    [1,1,0,1,0,0],
+    [0,0,0,0,0,1],
+    [1,0,0,0,0,0]
+    // [0,0,1],
+    // [1,1,0],
+    // [0,0,0]
 ];
 
 // constraints
@@ -22,7 +25,8 @@ var constraints1 = ava.reduce(function(prev, curr) {
     return prev.concat(curr);
 }, []);
 
-var constraints2 = [1,1,0,0];
+var constraints2 = [1,1,0,0,0];
+// var constraints2 = [1,1,0];
 
 var generation = 0,
     colonySize = 10,
@@ -39,7 +43,13 @@ var score0 = gen0.map(function(g){return calculateScore(g,ava[0].length,ava.leng
 
 console.log(score0);
 
+var gen1 = crossover(gen0[0], gen0[1], verifyAll, 500);
 
+console.log(gen1);
+
+var score1 = gen1.map(function(g){return calculateScore(g,ava[0].length,ava.length)});
+
+console.log(score1);
 
 /*======== Functions ============*/
 function generateVerifyAll(c1, c2, c3) {
@@ -149,9 +159,31 @@ function calculateScore(solution, unitSize, unitCount)
     return score;
 }
 
-function crossover(solution1, solution2, verifyAllFunc)
+function crossover(solution1, solution2, verifyAllFunc, limit)
 {
-    
+    var s1 = s2 = solution1.map(function(){return 1;});
+    var trial = 0;
+    while ((!verifyAllFunc(s1) || !verifyAllFunc(s2)))
+    {
+        var xpoint = Math.floor(solution1.length * Math.random());
+
+        s1 = s2 = [];
+        solution1.forEach(function(point, i) {
+            if (i<xpoint)
+            {
+                s1.push(solution1[i]);
+                s2.push(solution2[i]);
+            }
+            else
+            {
+                s1.push(solution2[i]);
+                s2.push(solution1[i]);
+            }
+        });
+        if (trial++ > limit) return [solution1, solution2];
+    }
+
+    return [s1, s2];
 }
 
 function pickBest(scores, threshold)
