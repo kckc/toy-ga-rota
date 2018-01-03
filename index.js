@@ -4,14 +4,16 @@
 // - use byte array
 
 var ava = [
-    [0,0,1],
-    [1,1,0],
-    [0,0,0]
+    [0,0,1,0],
+    [1,1,0,1],
+    [0,0,0,0],
+    [1,0,0,0]
 ];
 
 // constraints
 // 1) must suit avalibility
 // 2) index 0,1 cannot both be 1
+// 3) each column has 1 value
 
 // optimise
 // each section lower better
@@ -25,6 +27,12 @@ var gen0 = generateSolutions(10);
 
 console.log(gen0);
 
+var score0 = gen0.map(function(g){return calculateScore(g,ava[0].length,ava.length)});
+
+console.log(score0);
+
+/*======== Functions ============*/
+
 function generateSolutions(count)
 {
     var sols = [];
@@ -32,7 +40,8 @@ function generateSolutions(count)
     {
         var solution = generateSolution(constraints1.length, ava[0].length);
         while(!verifyconstraints1(solution, constraints1)
-            || !verifyconstraints2(solution))
+            || !verifyconstraints2(solution)
+            || !verifyconstraints3(solution, ava[0].length))
         {
             solution = generateSolution(constraints1.length, ava[0].length);
         }
@@ -77,23 +86,54 @@ function verifyconstraints2(solution, constarints)
     
     var constraints2 = [1,1,0];
     var currIndex = 0;
-    while(currIndex<solution.length)
+    while(currIndex<solution.length/constraints2.size)
     {
-        var test = [];
-        for(var i=0; i<constraints2.length; i++)
-        {
-            test.push(solution[currIndex]);
-            currIndex++;
-        }
+        var test = getUnit(solution, currIndex, constraints2.size);
+        currIndex ++;
         result = test.map(function(obj, i) { return obj & constraints2[i];});
         if (result.toString() === constraints2.toString()) return false;
     }
     return true;
 }
 
-function calculateScore(solution)
+function verifyconstraints3(solution, unitSize)
 {
+    for (var i=0; i<unitSize; i++)
+    {
+        var columnCount = solution.reduce(function(prev, curr, j){
+            if (j % unitSize === i)
+                return prev + curr;
+            else
+                return prev;
+        }, 0);
+        
+        if (columnCount > 1) return false;
+    }
+    return true;
+}
 
+function getUnit(solution, currentIndex, size)
+{
+    var test = [];
+    for(var i=0; i<size; i++)
+    {
+        test.push(solution[currentIndex * size + i]);
+    }
+    return test;
+}
+
+function calculateScore(solution, unitSize, unitCount)
+{
+    var currIndex = 0;
+    var score = 0;
+    while(currIndex < solution.length/unitSize)
+    {
+        var unit = getUnit(solution, currIndex, unitSize);
+        var count = unit.reduce(function(a,b) {return a+b;},0);
+        score += Math.abs(count - solution.length/unitCount/unitCount);
+        currIndex++;
+    }
+    return score;
 }
 
 exports.generateSolution = generateSolution;
