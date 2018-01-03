@@ -29,7 +29,9 @@ var generation = 0,
     survive = 2,
     deceased = 2;
 
-var gen0 = generateSolutions(10);
+var verifyAll = generateVerifyAll(constraints1, constraints2, ava[0].length);
+
+var gen0 = generateSolutions(10, verifyAll);
 
 console.log(gen0);
 
@@ -40,16 +42,21 @@ console.log(score0);
 
 
 /*======== Functions ============*/
+function generateVerifyAll(c1, c2, c3) {
+    return function(solution) {
+        return verifyconstraints1(solution, c1)
+            && verifyconstraints2(solution, c2)
+            && verifyconstraints3(solution, c3)
+    }
+}
 
-function generateSolutions(count)
+function generateSolutions(count, verifyAllFunc)
 {
     var sols = [];
     for (var i=0; i<count; i++)
     {
         var solution = generateSolution(constraints1.length, ava[0].length);
-        while(!verifyconstraints1(solution, constraints1)
-            || !verifyconstraints2(solution, constraints2)
-            || !verifyconstraints3(solution, ava[0].length))
+        while(!verifyAllFunc(solution))
         {
             solution = generateSolution(constraints1.length, ava[0].length);
         }
@@ -142,17 +149,17 @@ function calculateScore(solution, unitSize, unitCount)
     return score;
 }
 
-function crossover(solution1, solution2)
+function crossover(solution1, solution2, verifyAllFunc)
 {
-
+    
 }
 
-function pickBest(count)
+function pickBest(scores, threshold)
 {
-
+    
 }
 
-function pickWorse(count)
+function pickWorse(scores, threshold)
 {
 
 }
