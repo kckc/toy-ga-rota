@@ -1,21 +1,32 @@
-export const people = {
-    Ken: {
-        PA: 1, PO: 1, AM: 1, PM: 1,
-        unavailable: [2,5,8,13]
-    },
-    Kel: {
-        PA: 1, PO:0, AM: 1, PM: 0,
-        unavailable: []
-    },
-    Michael: {
-        PA: 1, PO: 1, AM: 1, PM: 0,
-        unavailable: [10,11,12]
-    },
-    Teeda: {
-        PA: 1, PO: 0, AM: 1, PM: 0,
-        unavailable: []
-    },
+import CONFIG from './config'
+import * as _ from 'lodash'
+
+interface IPerson {
+    [name: string]: {PA:number, PO:number, AM:number, PM:number, unavailable:number[]}
 }
 
-// 14
-export const dates = ["01/10","08/10","15/10","22/10","29/10","05/11","12/11","19/11","26/11","03/12","10/12","17/12","24/12","31/12"]
+const people: IPerson = require('./people.json');
+
+export var roles = {
+    PA: _.toPairs(people).filter((p) => !!p[1].PA).map((p) => p[0]),
+    PO: _.toPairs(people).filter((p) => !!p[1].PO).map((p) => p[0]),
+    AM: _.toPairs(people).filter((p) => !!p[1].AM).map((p) => p[0]),
+    PM: _.toPairs(people).filter((p) => !!p[1].PM).map((p) => p[0])
+}
+
+export var names = _.keys(people);
+
+export var peopleAvailability = CONFIG.dates.map((date, i) => {
+        return _.toPairs(people).filter((p) => !_.includes(p[1].unavailable, i)).map((p) => p[0]);
+})
+
+export function getPeopleAvailabilities() {
+    return _.values(people)
+        .map((p) => {
+            let available = [];
+            CONFIG.dates.forEach((d, i) => {
+                if (_.includes(p.unavailable, i)) available.push[i];
+            });
+            return available;
+        });
+}

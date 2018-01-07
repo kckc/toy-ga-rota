@@ -1,5 +1,7 @@
-import * as CONFIG from './config';
+import CONFIG from './config';
 import * as _ from 'lodash';
+import * as UTIL from './util';
+import * as PEOPLE from './people';
 
 var gen0 = generateSolutions(CONFIG.colonySize);
 
@@ -24,8 +26,8 @@ while(generation < CONFIG.maxGen)
 {
     var sorted = _.sortBy(scores, (s) => s.score);
 
-    var cross1 = crossover(sorted[0].s,sorted[2].s, validateConstraint1, sorted[0].s.length);
-    var cross2 = crossover(sorted[1].s,sorted[3].s, validateConstraint1, sorted[0].s.length);
+    var cross1 = UTIL.crossover(sorted[0].s,sorted[2].s, validateConstraint1, sorted[0].s.length);
+    var cross2 = UTIL.crossover(sorted[1].s,sorted[3].s, validateConstraint1, sorted[0].s.length);
 
     var swapped = _.take(sorted, scores.length - 4)
         .concat(cross1.map(mapToScores))
@@ -60,18 +62,20 @@ function generateSolutions(count: number) {
 
 function generateSolution(){
     var solution = [];
-    for (var i=0; i<CONFIG.spaces; i++) {
-        var index = randomIndex(CONFIG.availabililty[i]);
-        solution.push(CONFIG.availabililty[i][index]);
-    }
+    UTIL.options.forEach((day) => {
+        let index = UTIL.randomIndex(day);
+        solution.push(day[index]);
+    });
     return solution;
 }
 
 function validateConstraint1(solution) {
-    let units = _.chunk(solution, CONFIG.unitSize);
+    let units = _.chunk(solution, CONFIG.sessions.length);
 
     let result = !units.some((u) => {
-        return u.length !== _.uniq(u).length;
+        var am = _.take(u, 3);
+        var pm = _.takeRight(u, 2);
+        return (am.length !== _.uniq(am).length) && (am.length !== _.uniq(am).length);
     });
     //console.log(solution, units, result);
     return result;
@@ -80,43 +84,10 @@ function validateConstraint1(solution) {
 function calculateScore(solution)
 {
     var score = 0;
-    CONFIG.names.forEach((name, i) => {
-        var count = _.filter(solution, (s) => s === i+1).length;
-        score += Math.pow(Math.abs(count - CONFIG.spaces/CONFIG.names.length), 2);
+    PEOPLE.names.forEach((name) => {
+        var count = _.filter(solution, (s) => s === name).length;
+        score += Math.pow(Math.abs(count - UTIL.options.length/PEOPLE.names.length), 2);
     })
 
     return score;
-}
-
-function crossover(solution1: number[], solution2: number[], verifyAllFunc, limit: number) {
-
-    var s1: number[], s2: number[];
-    s1 = s2 = solution1.map(() => 1);
-    var trial = 0;
-    while ((!verifyAllFunc(s1) || !verifyAllFunc(s2)))
-    {
-        let xpoint = randomIndex(solution1);
-
-        s1 = [], s2 = [];
-        solution1.forEach((point, i) => {
-            if (i<xpoint)
-            {
-                s1.push(solution1[i]);
-                s2.push(solution2[i]);
-            }
-            else
-            {
-                s1.push(solution2[i]);
-                s2.push(solution1[i]);
-            }
-        });
-        // console.log(s1, s2, solution1, solution2, xpoint);
-        if (trial++ > limit) return [solution1, solution2];
-    }
-
-    return [s1, s2];
-}
-
-function randomIndex(array: any[]) {
-    return Math.floor(Math.random() * array.length);
 }

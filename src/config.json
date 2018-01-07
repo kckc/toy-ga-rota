@@ -1,0 +1,12 @@
+{
+    "colonySize" : 10,
+    "maxGen" : 10,
+    "dates" : ["01/10","08/10"],
+    "sessions" : [
+        ["PA","AM"],
+        ["PA","AM"],
+        ["PO", "AM"],
+        ["PA", "PM"],
+        ["PO", "PM"]
+    ]
+}

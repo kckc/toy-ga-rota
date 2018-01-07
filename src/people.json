@@ -1,0 +1,18 @@
+{
+    "Ken": {
+        "PA": 1, "PO": 1, "AM": 1, "PM": 1,
+        "unavailable": [2,5,8,13]
+    },
+    "Kel": {
+        "PA": 1, "PO":0, "AM": 1, "PM": 0,
+        "unavailable": []
+    },
+    "Michael": {
+        "PA": 1, "PO": 1, "AM": 1, "PM": 0,
+        "unavailable": [10,11,12]
+    },
+    "Teeda": {
+        "PA": 1, "PO": 0, "AM": 1, "PM": 0,
+        "unavailable": []
+    },
+}

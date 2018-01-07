@@ -1,32 +1,13 @@
-import * as PEOPLE from './people'
-import * as _ from 'lodash'
+// export const dates = ["01/10","08/10","15/10","22/10","29/10","05/11","12/11","19/11","26/11","03/12","10/12","17/12","24/12","31/12"]
 
-export const names = [
-    "A",
-    "B",
-    "C",
-    "D"
-]
-
-export const availabililty = [
-    [1,2,3,4],
-    [1,3,4],
-    [2,3,4],
-    [4]
-]
-
-export var spaces = availabililty.length
-
-export const unitSize = 2
-
-export const colonySize = 10
-
-export const maxGen = 10
-
-function getNames() {
-    return PEOPLE.people
+interface IConfig {
+    colonySize: number;
+    maxGen: number;
+    dates: string[];
+    sessions: string[][];
 }
 
-function getAvailabilities() {
-    // return _.values(PEOPLE.people).map((p) => p.unavailable).map((u:number[]) => _.without(PEOPLE.dates, u))
-}
+var CONFIG: IConfig = require('./config.json');
+
+export default CONFIG;
+
