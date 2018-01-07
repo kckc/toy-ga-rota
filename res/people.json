@@ -15,4 +15,12 @@
         "PA": 1, "PO": 0, "AM": 1, "PM": 0,
         "unavailable": []
     },
+    "Andy": {
+        "PA": 1, "PO": 0, "AM": 0, "PM": 1,
+        "unavailable": [1]
+    },
+    "ShuangYing": {
+        "PA": 0, "PO": 1, "AM": 0, "PM": 1,
+        "unavailable": [2]
+    }
 }

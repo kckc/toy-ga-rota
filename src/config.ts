@@ -7,7 +7,7 @@ interface IConfig {
     sessions: string[][];
 }
 
-var CONFIG: IConfig = require('./config.json');
+var CONFIG: IConfig = require('../res/config.json');
 
 export default CONFIG;
 

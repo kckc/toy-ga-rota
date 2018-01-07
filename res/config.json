@@ -1,6 +1,6 @@
 {
     "colonySize" : 10,
-    "maxGen" : 10,
+    "maxGen" : 0,
     "dates" : ["01/10","08/10"],
     "sessions" : [
         ["PA","AM"],

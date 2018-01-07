@@ -5,7 +5,7 @@ interface IPerson {
     [name: string]: {PA:number, PO:number, AM:number, PM:number, unavailable:number[]}
 }
 
-const people: IPerson = require('./people.json');
+const people: IPerson = require('../res/people.json');
 
 export var roles = {
     PA: _.toPairs(people).filter((p) => !!p[1].PA).map((p) => p[0]),

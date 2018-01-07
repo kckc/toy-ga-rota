@@ -1,5 +1,5 @@
 import * as PEOPLE from './people';
-import  CONFIG from './config';
+import CONFIG from './config';
 import * as _ from 'lodash';
 
 function constructAvailabilities(): any[][] {
@@ -17,12 +17,12 @@ function constructAvailabilities(): any[][] {
 
 export var options = constructAvailabilities();
 
-export function crossover(solution1: number[], solution2: number[], verifyAllFunc, limit: number) {
+export function crossover(solution1: number[], solution2: number[], limit: number) {
 
     var s1: number[], s2: number[];
     s1 = s2 = solution1.map(() => 1);
     var trial = 0;
-    while ((!verifyAllFunc(s1) || !verifyAllFunc(s2)))
+    while ((!validateConstraint1(s1) || !validateConstraint1(s2)))
     {
         let xpoint = randomIndex(solution1);
 
@@ -48,4 +48,30 @@ export function crossover(solution1: number[], solution2: number[], verifyAllFun
 
 export function randomIndex(array: any[]) {
     return Math.floor(Math.random() * array.length);
+}
+
+export function validateConstraint1(solution) {
+    let units = _.chunk(solution, CONFIG.sessions.length);
+
+    let result = !units.some((u) => {
+        let count = _.filter(CONFIG.sessions, (s) => s[1] === "AM").length;
+        let am = _.take(u, count);
+        let pm = _.takeRight(u, u.length - am.length);
+        let isRepeated = (am.length !== _.uniq(am).length) || (pm.length !== _.uniq(pm).length);
+        // console.log(am, pm, isRepeated);
+        return isRepeated;
+    });
+    //console.log(solution, units, result);
+    return result;
+}
+
+export function calculateScore(solution)
+{
+    var score = 0;
+    PEOPLE.names.forEach((name) => {
+        var count = _.filter(solution, (s) => s === name).length;
+        score += Math.pow(Math.abs(count - options.length/PEOPLE.names.length), 2);
+    })
+
+    return score;
 }
