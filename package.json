@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "buildrun": "npm run build && npm run run",
+    "go": "npm run build && npm run run",
     "test": "npm run build && node test/test.js",
     "run": "node bin/index.js"
   }

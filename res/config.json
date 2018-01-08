@@ -16,5 +16,5 @@
     "fixedFromBeginning" : [
         "Ken","Alex","SiuWan","Andy","ShuangYing"
     ],
-    "scoreWeights": [1,10]
+    "scoreWeights": [1,1]
 }

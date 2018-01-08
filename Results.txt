@@ -1,57 +1,26 @@
-| 07/01 |    Matthew |     Horace |        Ken |       Andy |       Roco |
-| 14/01 |        Kel |       Alex |     Minnie |       Andy |       Roco |
-| 21/01 |    Michael |     Horace |     SiuWan |   ChenDong | ShuangYing |
-| 28/01 |    Matthew |       Alex |    Michael |       Andy | ShuangYing |
-| 04/02 |    Michael |      Teeda |     Minnie |   ChenDong |       Roco |
-| 11/02 |        Kel |    Michael |     Minnie |            |       Roco |
-| 18/02 |       Alex |     Horace |     SiuWan |        Ken | ShuangYing |
-| 25/02 |        Kel |      Teeda |        Ken |   ChenDong | ShuangYing |
-| 04/03 |       Alex |      Teeda |     SiuWan |       Andy | ShuangYing |
-| 11/03 |       Alex |        Kel |     Minnie |        Ken |   ChenDong |
-| 18/03 |    Matthew |      Teeda |     Minnie |   ChenDong |        Ken |
-| 25/03 |      Teeda |    Matthew |     Minnie |       Andy |       Roco |
-9.30769230769231
-{ Matthew: 4,
-  Horace: 3,
-  Ken: 5,
-  Andy: 5,
-  Roco: 5,
-  Kel: 4,
-  Alex: 5,
-  Minnie: 6,
-  Michael: 4,
-  SiuWan: 3,
-  ChenDong: 5,
-  ShuangYing: 5,
-  Teeda: 5,
-  undefined: 1 }
-
-
-| 07/01 |    Matthew |        Kel |     SiuWan |        Ken | ShuangYing |
-| 14/01 |       Alex |        Kel |        Ken |       Andy |   ChenDong |
-| 21/01 |      Teeda |    Michael |     SiuWan |        Ken |       Roco |
-| 28/01 |    Matthew |       Alex |     SiuWan |       Andy |       Roco |
-| 04/02 |     Horace |      Teeda |    Michael |   ChenDong |       Roco |
-| 11/02 |    Matthew |      Teeda |     Minnie |            |       Roco |
-| 18/02 |        Kel |       Alex |     Minnie |        Ken | ShuangYing |
-| 25/02 |       Alex |    Matthew |    Michael |   ChenDong | ShuangYing |
-| 04/03 |    Michael |     Horace |     Minnie |       Andy | ShuangYing |
-| 11/03 |    Matthew |        Kel |     Minnie |        Ken |   ChenDong |
-| 18/03 |      Teeda |     Horace |    Michael |       Andy |       Roco |
-| 25/03 |       Alex |     Horace |    Michael |       Andy | ShuangYing |
-7.307692307692306
-{ Matthew: 5,
-  Kel: 4,
-  SiuWan: 3,
-  Ken: 5,
-  ShuangYing: 5,
-  Alex: 5,
-  Andy: 5,
-  ChenDong: 4,
-  Teeda: 4,
-  Michael: 6,
-  Roco: 5,
-  Horace: 4,
-  Minnie: 4,
-  undefined: 1 }
-  
+[ [ 'Ken', 6 ],
+  [ 'ShuangYing', 6 ],
+  [ 'Alex', 5 ],
+  [ 'SiuWan', 5 ],
+  [ 'Minnie', 5 ],
+  [ 'ChenDong', 5 ],
+  [ 'Roco', 5 ],
+  [ 'Andy', 4 ],
+  [ 'Teeda', 4 ],
+  [ 'Matthew', 4 ],
+  [ 'Horace', 4 ],
+  [ 'Kel', 4 ],
+  [ 'Michael', 3 ] ]
+96.07692307692308
+| 07/01 |        Ken |       Alex |     SiuWan |       Andy | ShuangYing |
+| 14/01 |      Teeda |    Matthew |     Minnie |   ChenDong |       Roco |
+| 21/01 |     Horace |       Alex |    Michael |   ChenDong |        Ken |
+| 28/01 |      Teeda |        Kel |     SiuWan |       Andy | ShuangYing |
+| 04/02 |       Alex |     Horace |     Minnie |   ChenDong |       Roco |
+| 11/02 |        Kel |      Teeda |     SiuWan |        Ken | ShuangYing |
+| 18/02 |    Matthew |       Alex |     Minnie |        Ken |       Roco |
+| 25/02 |     Horace |        Kel |     Minnie |   ChenDong | ShuangYing |
+| 04/03 |    Matthew |       Alex |    Michael |       Andy |       Roco |
+| 11/03 |        Ken |     Horace |     SiuWan |        Ken | ShuangYing |
+| 18/03 |        Kel |      Teeda |     Minnie |   ChenDong |       Roco |
+| 25/03 |    Michael |    Matthew |     SiuWan |       Andy | ShuangYing |

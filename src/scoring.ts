@@ -25,17 +25,21 @@ function averageWorkLoad(solution) {
     return score;
 }
 
-function lessConsecativeDays(solution) {
+export function lessConsecativeDays(solution) {
     let score: number = 0;
     let chunks = _.chunk(solution, CONFIG.sessions.length);
     // less consecative days
     PEOPLE.names.forEach((name) => {
         let array = chunks.map((chunk) => _.filter(chunk, (c) => c === name).length);
-
+        
         let internal_score = array.reduce((sum, curr, i, arr) => {
             var prev = i > 0 ? arr[i-1] : 0;
-            return sum + prev > 0 ? curr * 10 : curr;
+            var aggregate = prev > 0 ? curr * 10 : curr;
+            // console.log(prev, sum, aggregate);
+            return sum + aggregate;
         }, 0);
+
+        // console.log(array, internal_score);
 
         score += internal_score;
     })

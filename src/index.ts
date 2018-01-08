@@ -2,7 +2,7 @@ import CONFIG from './config';
 import * as _ from 'lodash';
 import * as UTIL from './util';
 import * as PEOPLE from './people';
-import * as SCORING from './scoring';
+import * as SCORING from './scoring'
 
 // console.log(_.fromPairs(
 //     UTIL.options.map((option, i) => {
@@ -68,13 +68,15 @@ while(generation < CONFIG.maxGen)
 printSolution(_.minBy(scores, (s) => s.score));
 
 function printSolution(scores: {s:string[], score:number}) {
+    console.log(scores.s);
+    console.log(_.sortBy(_.toPairs(_.countBy(scores.s)), (s) => -s[1]));
+    console.log(scores.score);
+
     var dates = _.chunk(scores.s, CONFIG.sessions.length)
     dates.forEach((d, i) => {
         console.log("|" + _.padStart(CONFIG.dates[i], 6) + " |"
          + d.map(UTIL.padName).join(""));
     })
-    console.log(scores.score);
-    console.log(_.countBy(scores.s));
 }
 
 function mapToScores(s: string[]) {
