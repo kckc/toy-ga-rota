@@ -7,7 +7,6 @@ interface IConfig {
     dates: string[];
     sessions: string[][];
     fixedFromBeginning: string[];
-    initScore: number[];
     scoreWeights: number[];
 }
 

@@ -2,6 +2,7 @@ import CONFIG from './config';
 import * as _ from 'lodash';
 import * as UTIL from './util';
 import * as PEOPLE from './people';
+import * as SCORING from './scoring';
 
 // console.log(_.fromPairs(
 //     UTIL.options.map((option, i) => {
@@ -77,7 +78,7 @@ function printSolution(scores: {s:string[], score:number}) {
 }
 
 function mapToScores(s: string[]) {
-    return {s: s, score: UTIL.calculateScore(s)};
+    return {s: s, score: SCORING.calculateScore(s)};
 }
 
 function generateSolutions(count: number) {

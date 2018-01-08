@@ -1,5 +1,6 @@
 import * as PEOPLE from './people';
 import CONFIG from './config';
+import { calculateScore } from './scoring';
 import * as _ from 'lodash';
 
 function constructAvailabilities(): any[][] {
@@ -81,34 +82,6 @@ export function validateConstraint1(solution) {
     });
     //console.log(solution, units, result);
     return result;
-}
-
-export function calculateScore(solution)
-{
-    var scores = _.map(CONFIG.initScore, _.clone);
-    var weights = _.map(CONFIG.scoreWeights, _.clone);
-
-    // average out workload for everyone
-    PEOPLE.names.forEach((name) => {
-        var count = _.filter(solution, (s) => s === name).length;
-        scores[0] += Math.pow(Math.abs(count - options.length/PEOPLE.names.length), 2);
-    })
-
-    let chunks = _.chunk(solution, CONFIG.sessions.length);
-    // less consecative days
-    PEOPLE.names.forEach((name) => {
-        let array = chunks.map((chunk) => _.filter(chunk, (c) => c === name).length);
-
-        let internal_score = array.reduce((sum, curr, i, arr) => {
-            var prev = i > 0 ? arr[i-1] : 0;
-            return sum + prev > 0 ? curr * 10 : curr;
-        }, 0);
-
-        scores[1] += internal_score;
-    })
-    
-
-    return scores.reduce((prev, curr, i) => prev + (curr * weights[i]), 0);
 }
 
 export function padName(name: string) {
