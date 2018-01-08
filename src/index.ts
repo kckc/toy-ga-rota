@@ -52,20 +52,21 @@ while(generation < CONFIG.maxGen)
 
     generation++;
     console.log("======= Gen: " + generation);
-    console.log(_.sortBy(nextGen, (s) => s.score));
+    console.log(_.sortBy(nextGen, (s) => s.score).map((s) => s.score));
 
     scores = nextGen;
 }
-var a = _.minBy(scores, (s) => s.score);
 
 printSolution(_.minBy(scores, (s) => s.score));
 
 function printSolution(scores: {s:string[], score:number}) {
     var dates = _.chunk(scores.s, CONFIG.sessions.length)
     dates.forEach((d, i) => {
-        console.log(_.padStart(CONFIG.dates[i], 6) + " |"
+        console.log("|" + _.padStart(CONFIG.dates[i], 6) + " |"
          + d.map(UTIL.padName).join(""));
     })
+    console.log(scores.score);
+    console.log(_.countBy(scores.s));
 }
 
 function mapToScores(s: string[]) {

@@ -21,8 +21,10 @@ export function crossover(solution1: string[], solution2: string[], limit: numbe
 
     var s1: string[], s2: string[];
     s1 = s2 = solution1.map(() => "");
-    var trial = 0;
-    while ((!validateConstraint1(s1) || !validateConstraint1(s2)))
+    var trial = 0,
+        newScore = 0, 
+        oldScore = calculateScore(solution1) + calculateScore(solution2);
+    while (!validateConstraint1(s1) || !validateConstraint1(s2) || oldScore < newScore)
     {
         let xpoint = randomIndex(solution1);
 
@@ -39,6 +41,8 @@ export function crossover(solution1: string[], solution2: string[], limit: numbe
                 s2.push(solution1[i]);
             }
         });
+        newScore = calculateScore(s1) + calculateScore(s2);
+
         // console.log(s1, s2, solution1, solution2, xpoint);
         if (trial++ > limit) return [solution1, solution2];
     }
@@ -68,10 +72,14 @@ export function validateConstraint1(solution) {
 export function calculateScore(solution)
 {
     var score = 0;
+
+    // average out workload for everyone
     PEOPLE.names.forEach((name) => {
         var count = _.filter(solution, (s) => s === name).length;
         score += Math.pow(Math.abs(count - options.length/PEOPLE.names.length), 2);
     })
+
+    // less consecative days
 
     return score;
 }
