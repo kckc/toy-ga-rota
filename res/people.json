@@ -1,26 +1,50 @@
 {
     "Ken": {
-        "PA": 1, "PO": 1, "AM": 1, "PM": 1,
-        "unavailable": [2,5,8,13]
+        "PAPOAMPM": "1111",
+        "unavailable": [1, 4, 7, 12]
     },
     "Kel": {
-        "PA": 1, "PO":0, "AM": 1, "PM": 0,
+        "PAPOAMPM": "1010",
         "unavailable": []
     },
     "Michael": {
-        "PA": 1, "PO": 1, "AM": 1, "PM": 0,
-        "unavailable": [10,11,12]
+        "PAPOAMPM": "1110",
+        "unavailable": [9, 10, 11]
     },
     "Teeda": {
-        "PA": 1, "PO": 0, "AM": 1, "PM": 0,
+        "PAPOAMPM": "1010",
+        "unavailable": []
+    },
+    "Horace": {
+        "PAPOAMPM": "1010",
+        "unavailable": [12,13]
+    },
+    "Matthew": {
+        "PAPOAMPM": "1010",
+        "unavailable": [11,12,13]
+    },
+    "SiuWan": {
+        "PAPOAMPM": "0110",
+        "unavailable": [0,1]
+    },
+    "Minnie": {
+        "PAPOAMPM": "0110",
         "unavailable": []
     },
     "Andy": {
-        "PA": 1, "PO": 0, "AM": 0, "PM": 1,
-        "unavailable": [1]
+        "PAPOAMPM": "1001",
+        "unavailable": [0,2]
+    },
+    "ChenDong": {
+        "PAPOAMPM": "1101",
+        "unavailable": [1,2,3,4,7,8,13]
     },
     "ShuangYing": {
-        "PA": 0, "PO": 1, "AM": 0, "PM": 1,
-        "unavailable": [2]
+        "PAPOAMPM": "0101",
+        "unavailable": [1]
+    },
+    "Roco": {
+        "PAPOAMPM": "0101",
+        "unavailable": [0]
     }
 }

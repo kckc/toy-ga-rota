@@ -2,18 +2,18 @@ import CONFIG from './config'
 import * as _ from 'lodash'
 
 interface IPerson {
-    [name: string]: {PA:number, PO:number, AM:number, PM:number, unavailable:number[]}
+    [name: string]: {PAPOAMPM: string, PA:number, PO:number, AM:number, PM:number, unavailable:number[]}
 }
 
-const people: IPerson = require('../res/people.json');
+export const people: IPerson = require('../res/people.json');
 
 export var roles = {
-    PA: _.toPairs(people).filter((p) => !!p[1].PA).map((p) => p[0]),
-    PO: _.toPairs(people).filter((p) => !!p[1].PO).map((p) => p[0]),
-    AM: _.toPairs(people).filter((p) => !!p[1].AM).map((p) => p[0]),
-    PM: _.toPairs(people).filter((p) => !!p[1].PM).map((p) => p[0])
+    PA: _.toPairs(people).filter((p) => (parseInt(p[1].PAPOAMPM, 2) & 0b1000) > 0).map((p) => p[0]),
+    PO: _.toPairs(people).filter((p) => (parseInt(p[1].PAPOAMPM, 2) & 0b0100) > 0).map((p) => p[0]),
+    AM: _.toPairs(people).filter((p) => (parseInt(p[1].PAPOAMPM, 2) & 0b0010) > 0).map((p) => p[0]),
+    PM: _.toPairs(people).filter((p) => (parseInt(p[1].PAPOAMPM, 2) & 0b0001) > 0).map((p) => p[0])
 }
-
+// console.log(roles);
 export var names = _.keys(people);
 
 export var peopleAvailability = CONFIG.dates.map((date, i) => {

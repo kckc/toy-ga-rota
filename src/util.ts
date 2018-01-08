@@ -17,10 +17,10 @@ function constructAvailabilities(): any[][] {
 
 export var options = constructAvailabilities();
 
-export function crossover(solution1: number[], solution2: number[], limit: number) {
+export function crossover(solution1: string[], solution2: string[], limit: number) {
 
-    var s1: number[], s2: number[];
-    s1 = s2 = solution1.map(() => 1);
+    var s1: string[], s2: string[];
+    s1 = s2 = solution1.map(() => "");
     var trial = 0;
     while ((!validateConstraint1(s1) || !validateConstraint1(s2)))
     {
@@ -74,4 +74,10 @@ export function calculateScore(solution)
     })
 
     return score;
+}
+
+export function padName(name: string) {
+    let max = _.maxBy(PEOPLE.names, 'length').length;
+    // console.log(max, PEOPLE.names);
+    return _.padStart(name, max + 1) + " |";
 }

@@ -3,18 +3,18 @@ import * as _ from 'lodash';
 import * as UTIL from './util';
 import * as PEOPLE from './people';
 
-console.log(_.fromPairs(
-    UTIL.options.map((option, i) => {
-        var date_index = Math.floor(i/CONFIG.sessions.length);
-        var session_index = i % CONFIG.sessions.length;
-        console.log(option, i, date_index, session_index);
+// console.log(_.fromPairs(
+//     UTIL.options.map((option, i) => {
+//         var date_index = Math.floor(i/CONFIG.sessions.length);
+//         var session_index = i % CONFIG.sessions.length;
+//         // console.log(option, i, date_index, session_index);
 
-        var key = CONFIG.dates[date_index]
-            + " " + CONFIG.sessions[session_index].join(" ")
-            + " " + session_index;
-        return [key, option]
-    }))
-);
+//         var key = CONFIG.dates[date_index]
+//             + " " + CONFIG.sessions[session_index].join(" ")
+//             + " " + session_index;
+//         return [key, option]
+//     }))
+// );
 
 var gen0 = generateSolutions(CONFIG.colonySize);
 
@@ -56,8 +56,19 @@ while(generation < CONFIG.maxGen)
 
     scores = nextGen;
 }
+var a = _.minBy(scores, (s) => s.score);
 
-function mapToScores(s: number[]) {
+printSolution(_.minBy(scores, (s) => s.score));
+
+function printSolution(scores: {s:string[], score:number}) {
+    var dates = _.chunk(scores.s, CONFIG.sessions.length)
+    dates.forEach((d, i) => {
+        console.log(_.padStart(CONFIG.dates[i], 6) + " |"
+         + d.map(UTIL.padName).join(""));
+    })
+}
+
+function mapToScores(s: string[]) {
     return {s: s, score: UTIL.calculateScore(s)};
 }
 
