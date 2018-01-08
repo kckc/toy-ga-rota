@@ -37,18 +37,25 @@ var scores = score0;
 
 while(generation < CONFIG.maxGen)
 {
-    var sorted = _.sortBy(scores, (s) => s.score);
+    var sorted_solutions = _.sortBy(scores, (s) => s.score).map((s) => s.s);
 
-    var cross1 = UTIL.crossover(sorted[0].s,sorted[2].s, sorted[0].s.length);
-    var cross2 = UTIL.crossover(sorted[1].s,sorted[3].s, sorted[0].s.length);
+    var cross1 = UTIL.crossover(sorted_solutions[0], sorted_solutions[2], sorted_solutions[0].length);
+    var cross2 = UTIL.crossover(sorted_solutions[1], sorted_solutions[3], sorted_solutions[0].length);
 
-    var swapped = _.take(sorted, scores.length - 4)
-        .concat(cross1.map(mapToScores))
-        .concat(cross2.map(mapToScores));
+    var swapped = _.take(sorted_solutions, scores.length - 4)
+        .concat(cross1)
+        .concat(cross2);
 
-    var reduced = _.uniqBy(swapped, (s) => s.s.join());
+    var reduced = _.uniqBy(swapped, (s) => s.join(""));
     
-    var nextGen = reduced.concat(generateSolutions(CONFIG.colonySize - reduced.length).map(mapToScores));
+    var repopulated = reduced.concat(generateSolutions(CONFIG.colonySize - reduced.length));
+
+    var mutated = repopulated.map((s, i) => 
+        i > 1 ? 
+        UTIL.mutate(s, 5, CONFIG.fixedFromBeginning.length) : s
+    );
+
+    var nextGen = mutated.map(mapToScores);
 
     generation++;
     console.log("======= Gen: " + generation);
@@ -87,9 +94,11 @@ function generateSolutions(count: number) {
 
 function generateSolution(){
     var solution = [];
-    UTIL.options.forEach((day) => {
-        let index = UTIL.randomIndex(day);
-        solution.push(day[index]);
+    solution = solution.concat(CONFIG.fixedFromBeginning);
+    UTIL.options.forEach((option, i) => {
+        if (i<CONFIG.fixedFromBeginning.length) return;
+        let index = UTIL.randomIndex(option);
+        solution.push(option[index]);
     });
     return solution;
 }

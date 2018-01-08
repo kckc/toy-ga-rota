@@ -1,6 +1,7 @@
 {
     "colonySize" : 10,
-    "maxGen" : 1000,
+    "maxGen" : 500,
+    "crossoverPoints": 2,
     "dates" : [
         "07/01","14/01","21/01","28/01",
         "04/02","11/02","18/02","25/02",
@@ -11,5 +12,10 @@
         ["PO", "AM"],
         ["PA", "PM"],
         ["PO", "PM"]
-    ]
+    ],
+    "fixedFromBeginning" : [
+        "Ken","Alex","SiuWan","Andy","ShuangYing"
+    ],
+    "initScore": [0,0],
+    "scoreWeights": [1,10]
 }

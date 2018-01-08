@@ -3,8 +3,12 @@
 interface IConfig {
     colonySize: number;
     maxGen: number;
+    crossoverPoints: number;
     dates: string[];
     sessions: string[][];
+    fixedFromBeginning: string[];
+    initScore: number[];
+    scoreWeights: number[];
 }
 
 var CONFIG: IConfig = require('../res/config.json');
