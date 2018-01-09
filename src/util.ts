@@ -1,6 +1,7 @@
 import * as PEOPLE from './people';
 import CONFIG from './config';
 import { calculateScore } from './scoring';
+import { validateAll } from './validation';
 import * as _ from 'lodash';
 
 function constructAvailabilities(): any[][] {
@@ -30,7 +31,7 @@ export function mutate(solution: string[], amount: number, fixed: number = 0) {
         result[i] = options[i][randomIndex(options[i])];
     });
 
-    while (!validateConstraint1(result))
+    while (!validateAll(result))
         mutate_index.forEach((i) => {
             result[i] = options[i][randomIndex(options[i])];
         });
@@ -45,7 +46,7 @@ export function crossover(solution1: string[], solution2: string[], limit: numbe
     var trial = 0,
         newScore = 0, 
         oldScore = calculateScore(solution1) + calculateScore(solution2);
-    while (!validateConstraint1(s1) || !validateConstraint1(s2) || oldScore < newScore)
+    while (!validateAll(s1) || !validateAll(s2) || oldScore < newScore)
     {
         let xaddress = _.times(CONFIG.crossoverPoints, ()=>randomIndex(solution1)).sort();
 
@@ -67,21 +68,6 @@ export function crossover(solution1: string[], solution2: string[], limit: numbe
 
 export function randomIndex(array: any[], from: number = 0) {
     return Math.floor(Math.random() * (array.length - from)) + from;
-}
-
-export function validateConstraint1(solution) {
-    let units = _.chunk(solution, CONFIG.sessions.length);
-
-    let result = !units.some((u) => {
-        let count = _.filter(CONFIG.sessions, (s) => s[1] === "AM").length;
-        let am = _.take(u, count);
-        let pm = _.takeRight(u, u.length - am.length);
-        let isRepeated = (am.length !== _.uniq(am).length) || (pm.length !== _.uniq(pm).length);
-        // console.log(am, pm, isRepeated);
-        return isRepeated;
-    });
-    //console.log(solution, units, result);
-    return result;
 }
 
 export function padName(name: string) {

@@ -2,7 +2,8 @@ import CONFIG from './config';
 import * as _ from 'lodash';
 import * as UTIL from './util';
 import * as PEOPLE from './people';
-import * as SCORING from './scoring'
+import { calculateScore } from './scoring';
+import { validateAll } from './validation';
 
 // console.log(_.fromPairs(
 //     UTIL.options.map((option, i) => {
@@ -25,7 +26,7 @@ var score0 = gen0.map(mapToScores);
 
 console.log(score0);
 
-// var cx = crossover(gen0[0], gen0[1], validateConstraint1, 2);
+// var cx = crossover(gen0[0], gen0[1], validateAll, 2);
 
 // console.log(cx);
 
@@ -80,14 +81,14 @@ function printSolution(scores: {s:string[], score:number}) {
 }
 
 function mapToScores(s: string[]) {
-    return {s: s, score: SCORING.calculateScore(s)};
+    return {s: s, score: calculateScore(s)};
 }
 
 function generateSolutions(count: number) {
     var solutions = [];
     for (let i=0; i<count; i++) {
         let solution = generateSolution();
-        while (!UTIL.validateConstraint1(solution))
+        while (!validateAll(solution))
             solution = generateSolution();
         
         solutions.push(solution);

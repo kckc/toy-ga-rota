@@ -2,7 +2,7 @@ import CONFIG from './config'
 import * as _ from 'lodash'
 
 interface IPerson {
-    [name: string]: {PAPOAMPM: string, PA:number, PO:number, AM:number, PM:number, unavailable:number[]}
+    [name: string]: {limit?: number, PAPOAMPM: string, unavailable:number[]}
 }
 
 export const people: IPerson = require('../res/people.json');
@@ -15,6 +15,10 @@ export var roles = {
 }
 // console.log(roles);
 export var names = _.keys(people);
+
+export var limits = _.toPairs(people)
+    .filter((pair) => _.isNumber(pair[1].limit))
+    .map((pair) => { return {name:pair[0], limit:pair[1].limit}})
 
 export var peopleAvailability = CONFIG.dates.map((date, i) => {
         return _.toPairs(people).filter((p) => !_.includes(p[1].unavailable, i)).map((p) => p[0]);
