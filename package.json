@@ -2,5 +2,19 @@
   "name": "ga",
   "version": "0.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@types/lodash": "^4.14.91",
+    "@types/mocha": "^2.2.45",
+    "@types/node": "^8.5.2",
+    "lodash": "^4.17.4",
+    "mocha": "^4.1.0",
+    "typescript": "^2.6.2"
+  },
+  "scripts": {
+    "build": "tsc",
+    "go": "npm run build && npm run run",
+    "test": "npm run build && node test/test.js",
+    "run": "node bin/index.js"
+  }
 }

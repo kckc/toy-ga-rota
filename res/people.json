@@ -1,0 +1,55 @@
+{
+    "Ken": {
+        "PAPOAMPM": "1111",
+        "unavailable": [3,4,8,11]
+    },
+    "Kel": {
+        "PAPOAMPM": "1010",
+        "unavailable": []
+    },
+    "Michael": {
+        "PAPOAMPM": "1110",
+        "unavailable": [0,6,9]
+    },
+    "Teeda": {
+        "PAPOAMPM": "1010",
+        "unavailable": [0,6,9]
+    },
+    "Horace": {
+        "PAPOAMPM": "1010",
+        "unavailable": []
+    },
+    "Matthew": {
+        "PAPOAMPM": "1110",
+        "unavailable": []
+    },
+    "Alex": {
+        "PAPOAMPM": "1010",
+        "unavailable": []
+    },
+    "SiuWan": {
+        "PAPOAMPM": "0110",
+        "unavailable": [4,7]
+    },
+    "Minnie": {
+        "PAPOAMPM": "0110",
+        "unavailable": []
+    },
+    "Andy": {
+        "PAPOAMPM": "1001",
+        "unavailable": [4,5,6,7]
+    },
+    "ChenDong": {
+        "limit": 2,
+        "PAPOAMPM": "1101",
+        "unavailable": [0,3,5,6,8,11]
+    },
+    "ShuangYing": {
+        "PAPOAMPM": "0101",
+        "unavailable": []
+    },
+    "Roco": {
+        "PAPOAMPM": "0101",
+        "unavailable": []
+    }
+}
