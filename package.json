@@ -15,6 +15,10 @@
     "build": "tsc",
     "go": "npm run build && npm run run",
     "test": "npm run build && node test/test.js",
-    "run": "node bin/index.js"
+    "run": "node bin/index.js",
+    "cover": "nyc --reporter=lcov npm t"
+  },
+  "devDependencies": {
+    "nyc": "^11.4.1"
   }
 }

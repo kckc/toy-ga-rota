@@ -1,5 +1,5 @@
 {
-    "colonySize" : 10,
+    "colonySize" : 15,
     "maxGen" : 500,
     "crossoverPoints": 2,
     "dates" : [
@@ -13,8 +13,6 @@
         ["PA", "PM"],
         ["PO", "PM"]
     ],
-    "fixedFromBeginning" : [
-        "Ken","Alex","SiuWan","Andy","ShuangYing"
-    ],
+    "fixedFromBeginning" : [],
     "scoreWeights": [1,1]
 }
