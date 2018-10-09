@@ -69,9 +69,3 @@ export function crossover(solution1: string[], solution2: string[], limit: numbe
 export function randomIndex(array: any[], from: number = 0) {
     return Math.floor(Math.random() * (array.length - from)) + from;
 }
-
-export function padName(name: string) {
-    let max = _.maxBy(PEOPLE.names, 'length').length;
-    // console.log(max, PEOPLE.names);
-    return _.padStart(name, max + 1) + " |";
-}

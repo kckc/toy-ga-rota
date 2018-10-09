@@ -73,11 +73,14 @@ function printSolution(scores: {s:string[], score:number}) {
     console.log(_.sortBy(_.toPairs(_.countBy(scores.s)), (s) => -s[1]));
     console.log(scores.score);
 
-    var dates = _.chunk(scores.s, CONFIG.sessions.length)
-    dates.forEach((d, i) => {
-        console.log("|" + _.padStart(CONFIG.dates[i], 6) + " |"
-         + d.map(UTIL.padName).join(""));
+    const maxPad = _.maxBy(PEOPLE.names, 'length').length;
+    const chunkByDate = _.chunk(scores.s, CONFIG.sessions.length)
+    const printObjByDate = chunkByDate.map((d, i) => [CONFIG.dates[i]].concat(d))
+    printObjByDate.forEach(dateObj => {
+        const content = dateObj.map((o,i) => i === 0 ? o : _.padStart(o, maxPad)).join(" | ");
+        console.log(`| ${content} |`);
     })
+    // printObjByDate.forEach(d => console.log(d.join('\t')))
 }
 
 function mapToScores(s: string[]) {
