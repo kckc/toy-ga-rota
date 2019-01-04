@@ -5,6 +5,16 @@ import * as PEOPLE from './people';
 import { calculateScore } from './scoring';
 import { validateAll } from './validation';
 
+var winner = main();
+
+printSolution(winner);
+
+export {
+    main,
+    printSolution
+}
+
+function main() {
 // console.log(_.fromPairs(
 //     UTIL.options.map((option, i) => {
 //         var date_index = Math.floor(i/CONFIG.sessions.length);
@@ -66,15 +76,22 @@ while(generation < CONFIG.maxGen)
     scores = nextGen;
 }
 
-printSolution(_.minBy(scores, (s) => s.score));
+const winner = _.minBy(scores, (s) => s.score);
+const orderedWinner = {
+    s: UTIL.orderSameSession(winner.s),
+    score: winner.score,
+}
 
-function printSolution(scores: {s:string[], score:number}) {
-    console.log(scores.s);
-    console.log(_.sortBy(_.toPairs(_.countBy(scores.s)), (s) => -s[1]));
-    console.log(scores.score);
+return orderedWinner;
+}
 
-    const maxPad = _.maxBy(PEOPLE.names, 'length').length;
-    const chunkByDate = _.chunk(scores.s, CONFIG.sessions.length)
+function printSolution(score: {s:string[], score:number}) {
+    console.log(score.s);
+    console.log(_.sortBy(_.toPairs(_.countBy(score.s)), (s) => -s[1]));
+    console.log(score.score);
+
+    const maxPad = _.maxBy(PEOPLE.names.map(name => Buffer.from(name)), 'length').length;
+    const chunkByDate = _.chunk(score.s, CONFIG.sessions.length)
     const printObjByDate = chunkByDate.map((d, i) => [CONFIG.dates[i]].concat(d))
     printObjByDate.forEach(dateObj => {
         const content = dateObj.map((o,i) => i === 0 ? o : _.padStart(o, maxPad)).join(" | ");

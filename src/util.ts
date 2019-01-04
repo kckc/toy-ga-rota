@@ -3,6 +3,7 @@ import CONFIG from './config';
 import { calculateScore } from './scoring';
 import { validateAll } from './validation';
 import * as _ from 'lodash';
+import { join } from 'path';
 
 function constructAvailabilities(): any[][] {
     let availability: any[][] = [];
@@ -68,4 +69,40 @@ export function crossover(solution1: string[], solution2: string[], limit: numbe
 
 export function randomIndex(array: any[], from: number = 0) {
     return Math.floor(Math.random() * (array.length - from)) + from;
+}
+
+export function orderSameSession(solution: string[]) {
+    const sessionKey: {[key: string]: number[]} = CONFIG.sessions.reduce((prev, next, i) => {
+        const key = next.join('');
+        if (prev[key]) {
+            prev[key].push(i);
+        } else {
+            prev[key] = [i];
+        }
+        return prev;
+    }, {})
+
+    const sameSessionIndexes = Object.values(sessionKey).filter(k => k.length > 1);
+
+    if (sameSessionIndexes.length === 0) {
+        return solution;
+    }
+
+    const reorder = (chunk: string[]) => {
+        let newOrder = [...chunk];
+        sameSessionIndexes.forEach((indexes: number[]) => {
+            const itemsToOrder = indexes.map(i => chunk[i]);
+            const order = itemsToOrder.sort();
+            indexes.forEach((_, i) => newOrder[indexes[i]] = order[i]);
+        })
+        return newOrder;
+    }
+
+    const orderedSolution = [];
+
+    _.chunk(solution, CONFIG.sessions.length).forEach(chunk => {
+        orderedSolution.push(...reorder(chunk));
+    });
+
+    return orderedSolution;
 }
