@@ -4,17 +4,25 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@types/lodash": "^4.14.91",
-    "@types/mocha": "^2.2.45",
-    "@types/node": "^8.5.2",
     "lodash": "^4.17.4",
-    "mocha": "^4.1.0",
-    "typescript": "^2.6.2"
+    "request": "^2.88.0"
   },
   "scripts": {
     "build": "tsc",
     "go": "npm run build && npm run run",
     "test": "npm run build && node test/test.js",
-    "run": "node bin/index.js"
+    "run": "node bin/index.js",
+    "cover": "nyc --reporter=lcov npm t"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.91",
+    "@types/mocha": "^2.2.45",
+    "@types/node": "^8.5.2",
+    "@types/request": "^2.48.1",
+    "mocha": "^4.1.0",
+    "nyc": "^13.1.0",
+    "tslint": "^5.12.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "typescript": "^3.2.2"
   }
 }

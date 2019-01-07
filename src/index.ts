@@ -1,10 +1,20 @@
-import CONFIG from './config';
+import { CONFIG } from './config';
 import * as _ from 'lodash';
 import * as UTIL from './util';
 import * as PEOPLE from './people';
 import { calculateScore } from './scoring';
 import { validateAll } from './validation';
 
+const winner = main();
+
+printSolution(winner);
+
+export {
+    main,
+    printSolution,
+};
+
+function main() {
 // console.log(_.fromPairs(
 //     UTIL.options.map((option, i) => {
 //         var date_index = Math.floor(i/CONFIG.sessions.length);
@@ -18,13 +28,13 @@ import { validateAll } from './validation';
 //     }))
 // );
 
-var gen0 = generateSolutions(CONFIG.colonySize);
+  const gen0 = generateSolutions(CONFIG.colonySize);
 
 // console.log(gen0);
 
-var score0 = gen0.map(mapToScores);
+  const score0 = gen0.map(mapToScores);
 
-console.log(score0);
+  console.log(score0);
 
 // var cx = crossover(gen0[0], gen0[1], validateAll, 2);
 
@@ -34,75 +44,87 @@ console.log(score0);
 
 // console.log(scorecx);
 
-var generation = 0;
-var scores = score0;
+  let generation = 0;
+  let scores = score0;
 
-while(generation < CONFIG.maxGen)
-{
-    var sorted_solutions = _.sortBy(scores, (s) => s.score).map((s) => s.s);
+  while (generation < CONFIG.maxGen) {
+    const sortedSolutions = _.sortBy(scores, s => s.score).map(s => s.s);
 
-    var cross1 = UTIL.crossover(sorted_solutions[0], sorted_solutions[2], sorted_solutions[0].length);
-    var cross2 = UTIL.crossover(sorted_solutions[1], sorted_solutions[3], sorted_solutions[0].length);
+    const cross1 = UTIL.crossover(
+        sortedSolutions[0], sortedSolutions[2], sortedSolutions[0].length);
+    const cross2 = UTIL.crossover(
+        sortedSolutions[1], sortedSolutions[3], sortedSolutions[0].length);
 
-    var swapped = _.take(sorted_solutions, scores.length - 4)
+    const swapped = _.take(sortedSolutions, scores.length - 4)
         .concat(cross1)
         .concat(cross2);
 
-    var reduced = _.uniqBy(swapped, (s) => s.join(""));
-    
-    var repopulated = reduced.concat(generateSolutions(CONFIG.colonySize - reduced.length));
+    const reduced = _.uniqBy(swapped, s => s.join(''));
 
-    var mutated = repopulated.map((s, i) => 
-        i > 1 ? 
-        UTIL.mutate(s, 5, CONFIG.fixedFromBeginning.length) : s
+    const repopulated = reduced.concat(generateSolutions(CONFIG.colonySize - reduced.length));
+
+    const mutated = repopulated.map((s, i) =>
+        i > 1 ?
+        UTIL.mutate(s, CONFIG.mutationCount, CONFIG.fixedFromBeginning.length) : s,
     );
 
-    var nextGen = mutated.map(mapToScores);
+    const nextGen = mutated.map(mapToScores);
 
-    generation++;
-    console.log("======= Gen: " + generation);
-    console.log(_.sortBy(nextGen, (s) => s.score).map((s) => s.score));
+    generation += 1;
+    console.log(`======= Gen: ${generation}`);
+    console.log(_.sortBy(nextGen.map(s => s.score)));
 
     scores = nextGen;
+  }
+
+  const winner = _.minBy(scores, s => s.score);
+  const orderedWinner = {
+    s: UTIL.orderSameSession(winner.s),
+    score: winner.score,
+  };
+
+  return orderedWinner;
 }
 
-printSolution(_.minBy(scores, (s) => s.score));
+function printSolution(score: {s:string[], score:number}) {
+  console.log(score.s);
+  console.log(_.sortBy(_.toPairs(_.countBy(score.s)), s => -s[1]));
+  console.log(score.score);
 
-function printSolution(scores: {s:string[], score:number}) {
-    console.log(scores.s);
-    console.log(_.sortBy(_.toPairs(_.countBy(scores.s)), (s) => -s[1]));
-    console.log(scores.score);
-
-    var dates = _.chunk(scores.s, CONFIG.sessions.length)
-    dates.forEach((d, i) => {
-        console.log("|" + _.padStart(CONFIG.dates[i], 6) + " |"
-         + d.map(UTIL.padName).join(""));
-    })
+  const maxPad = _.maxBy(PEOPLE.names.map(name => Buffer.from(name)), 'length').length;
+  const chunkByDate = _.chunk(score.s, CONFIG.sessions.length);
+  const printObjByDate = chunkByDate.map((d, i) => [CONFIG.dates[i]].concat(d));
+  printObjByDate.forEach((dateObj) => {
+    const content = dateObj.map((o, i) => i === 0 ? o : _.padStart(o, maxPad)).join(' | ');
+    console.log(`| ${content} |`);
+  });
+    // printObjByDate.forEach(d => console.log(d.join('\t')))
 }
 
 function mapToScores(s: string[]) {
-    return {s: s, score: calculateScore(s)};
+  return { s, score: calculateScore(s) };
 }
 
 function generateSolutions(count: number) {
-    var solutions = [];
-    for (let i=0; i<count; i++) {
-        let solution = generateSolution();
-        while (!validateAll(solution))
-            solution = generateSolution();
-        
-        solutions.push(solution);
+  const solutions = [];
+  for (let i = 0; i < count; i += 1) {
+    let solution = generateSolution();
+    while (!validateAll(solution)) {
+      solution = generateSolution();
     }
-    return solutions;
+
+    solutions.push(solution);
+  }
+  return solutions;
 }
 
-function generateSolution(){
-    var solution = [];
-    solution = solution.concat(CONFIG.fixedFromBeginning);
-    UTIL.options.forEach((option, i) => {
-        if (i<CONFIG.fixedFromBeginning.length) return;
-        let index = UTIL.randomIndex(option);
-        solution.push(option[index]);
-    });
-    return solution;
+function generateSolution() {
+  let solution = [];
+  solution = solution.concat(CONFIG.fixedFromBeginning);
+  UTIL.options.forEach((option, i) => {
+    if (i < CONFIG.fixedFromBeginning.length) return;
+    const index = UTIL.randomIndex(option);
+    solution.push(option[index]);
+  });
+  return solution;
 }
