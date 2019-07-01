@@ -5,3 +5,4 @@ coverage
 Results.txt
 /res/config.json
 /res/people.json
+npm-debug.log

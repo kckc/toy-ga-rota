@@ -2,7 +2,7 @@ import { CONFIG } from './config';
 import * as _ from 'lodash';
 
 interface IPerson {
-  [name: string]: {limit?: number, PAPOAMPM: string, unavailable:number[]};
+  [name: string]: {limit?: number, PAPOAMPM: string, unavailable:number[], maybe?: number[]};
 }
 
 export const people: IPerson = require('../res/people.json');

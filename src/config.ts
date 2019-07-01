@@ -1,4 +1,4 @@
-interface IConfig {
+export interface IConfig {
   colonySize: number;
   maxGen: number;
   crossoverPoints: number;
@@ -7,6 +7,7 @@ interface IConfig {
   fixedFromBeginning: string[];
   scoreWeights: number[];
   mutationCount: number;
+  newSessions: any;
 }
 
 export const CONFIG: IConfig = require('../res/config.json');

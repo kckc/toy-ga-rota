@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 const scoringMethods: ((solution: string[]) => number)[] = [
   averageWorkLoad,
   lessConsecativeDays,
+  maybeDays,
 ];
 
 export function calculateScore(solution) {
@@ -47,4 +48,21 @@ export function lessConsecativeDays(solution) {
   });
 
   return score;
+}
+
+export function maybeDays(solution) {
+  let score = 0
+
+  const chunks = _.chunk(solution, CONFIG.sessions.length);
+    // less consecative days
+  PEOPLE.names.forEach((name) => {
+    const person = PEOPLE.people[name]
+    person.maybe && person.maybe.forEach(day => {
+      if (chunks[day].includes(name)) {
+        score += 1
+      }
+    })
+  })
+
+  return score
 }
